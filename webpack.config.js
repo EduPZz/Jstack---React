@@ -8,15 +8,24 @@ module.exports = {
         path: path.resolve(__dirname, 'build'),
         filename: 'bundle[hash].js',
     },
+    mode: "development",
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'public', 'index.html'),
         }),
         new CleanWebpackPlugin(),
     ],
-    module: [
+    module: {
         rules: [
-            {}
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: 'babel-loader',
+            },
         ],
-    ],
+    },
+    devServer: {
+        port: 3000,
+        allowedHosts: 'all',
+    },
 };
