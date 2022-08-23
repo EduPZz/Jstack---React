@@ -1,18 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Post from "./Post";
 import Header from "./Header";
 
-const posts = [
-    { title: 'Título 1', subtitle: 'Subtitulo 1', likes: 102 },
-    { title: 'Título 2', subtitle: 'Subtitulo 2', likes: 1653 },
-    { title: 'Título 3', subtitle: 'Subtitulo 3', likes: 102355 }
-];
-
 function App(){
+
+    const [posts, setPost] = useState([
+        { id: Math.random(), title: 'Título 1', subtitle: 'Subtitulo 1', likes: 102 },
+        { id: Math.random(), title: 'Título 2', subtitle: 'Subtitulo 2', likes: 1653 },
+        { id: Math.random(), title: 'Título 3', subtitle: 'Subtitulo 3', likes: 50 }
+    ]);
+
     function handleRefresh() {
-        console.log('Clicou');
+        setPost((prevState) => [
+            ...prevState,
+            {
+                id: Math.random(), 
+                title: `Título ${posts.length + 1}`, 
+                subtitle: `Subtitulo ${posts.length + 1}`, 
+                likes: 50 
+            },
+        ]);
+    };
+
+    function handleRemovePost(postId){
+        setPost((prevState) => (
+            prevState.filter(post => post.id === postId)
+        ));
     }
+
     return(
         <>
             <Header>
@@ -26,9 +42,11 @@ function App(){
 
             {posts.map(post => (
                 <Post 
+                    onRemove={handleRemovePost}
                     key={post.title}
                     likes={post.likes}
                     post={{
+                        id: post.id,
                         title: post.title,
                         subtitle: post.subtitle
                     }}
