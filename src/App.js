@@ -3,36 +3,37 @@ import React from "react";
 import Post from "./Post";
 import Header from "./Header";
 
+const posts = [
+    { title: 'Título 1', subtitle: 'Subtitulo 1', likes: 102 },
+    { title: 'Título 2', subtitle: 'Subtitulo 2', likes: 1653 },
+    { title: 'Título 3', subtitle: 'Subtitulo 3', likes: 102355 }
+];
+
 function App(){
+    function handleRefresh() {
+        console.log('Clicou');
+    }
     return(
         <>
             <Header>
-                <h2> Posts da semana</h2>
+                <h2> 
+                    Posts da semana
+                    <button onClick={handleRefresh}>Atualizar</button>
+                </h2>
             </Header>
 
             <hr />
 
-            <Post 
-                likes = {20}
-                post = {{
-                    title: "Post 1",
-                    subtitle: "Sub 1"
-                }}
-            />
-            <Post 
-                likes = {156}
-                post = {{
-                    title: "Post 2",
-                    subtitle: "Sub 2"
-                }}
-            />
-            <Post 
-                likes = {50}
-                post = {{
-                    title: "Post 3",
-                    subtitle: "Sub 3"
-                }}
-            />
+            {posts.map(post => (
+                <Post 
+                    key={post.title}
+                    likes={post.likes}
+                    post={{
+                        title: post.title,
+                        subtitle: post.subtitle
+                    }}
+                />
+            ))}
         </>
     )
 }
