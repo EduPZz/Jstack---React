@@ -1,18 +1,24 @@
 import React from "react";
 import propTypes from 'prop-types';
 
+import PostHeader from "./PostHeader";
+
+import Button from './Button';
+
 function Post(props){
     return(
         <>
             <article >
-                <h1>{props.post.read ? <s>{props.post.title}</s> : props.post.title}</h1>
-                <small>{props.post.subtitle}</small>
-                <button onClick={() => props.onRemove(props.post.id)}>
-                    Remover
-                </button>
-                <button onClick={() => props.onRead(props.post.id)}>
-                    Lido
-                </button>
+                
+                <PostHeader 
+                    onRemove={props.onRemove}
+                    post={{
+                        id: props.post.id,
+                        title: props.post.title,
+                        subtitle: props.post.subtitle,
+                        read: props.post.read
+                    }}                   
+                />
             </article>
             <br />
             Media: {props.post.likes / 2}
