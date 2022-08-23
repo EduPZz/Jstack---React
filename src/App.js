@@ -5,14 +5,14 @@ import Header from "./Header";
 
 function App(){
 
-    const [posts, setPost] = useState([
-        { id: Math.random(), title: 'Título 1', subtitle: 'Subtitulo 1', likes: 102 },
-        { id: Math.random(), title: 'Título 2', subtitle: 'Subtitulo 2', likes: 1653 },
-        { id: Math.random(), title: 'Título 3', subtitle: 'Subtitulo 3', likes: 50 }
+    const [posts, setPosts] = useState([
+        { id: Math.random(), title: 'Título 1', subtitle: 'Subtitulo 1', likes: 102, read: false },
+        { id: Math.random(), title: 'Título 2', subtitle: 'Subtitulo 2', likes: 1653, read: true },
+        { id: Math.random(), title: 'Título 3', subtitle: 'Subtitulo 3', likes: 50, read: false }
     ]);
 
     function handleRefresh() {
-        setPost((prevState) => [
+        setPosts((prevState) => [
             ...prevState,
             {
                 id: Math.random(), 
@@ -24,10 +24,16 @@ function App(){
     };
 
     function handleRemovePost(postId){
-        setPost((prevState) => (
-            prevState.filter(post => post.id === postId)
+        setPosts((prevState) => (
+            prevState.filter(post => post.id !== postId)
         ));
-    }
+    };
+    
+    function handleReadPost(postId){
+        setPosts((prevState) => (prevState.map(post => (
+            post.id === postId ? {...post, read: true} : post
+        ))))
+    };
 
     return(
         <>
@@ -42,14 +48,10 @@ function App(){
 
             {posts.map(post => (
                 <Post 
+                    onRead={handleReadPost}
                     onRemove={handleRemovePost}
                     key={post.title}
-                    likes={post.likes}
-                    post={{
-                        id: post.id,
-                        title: post.title,
-                        subtitle: post.subtitle
-                    }}
+                    post={post}
                 />
             ))}
         </>
